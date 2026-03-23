@@ -1,0 +1,73 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./src/renderer/index.html",
+    "./src/renderer/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        "tertiary-fixed-dim": "#ffb689",
+        "secondary-fixed-dim": "#adcbda",
+        "surface-container-lowest": "#ffffff",
+        "on-surface": "#1a1c1c",
+        "tertiary-container": "#bc5b00",
+        "on-error": "#ffffff",
+        "secondary-container": "#c6e4f4",
+        "inverse-on-surface": "#f1f1f1",
+        "on-primary-fixed": "#001c39",
+        "error-container": "#ffdad6",
+        "on-tertiary": "#ffffff",
+        "inverse-surface": "#2f3131",
+        "on-primary-container": "#ffffff",
+        "surface-container-highest": "#e2e2e2",
+        "surface": "#f9f9f9",
+        "tertiary": "#974700",
+        "surface-container-high": "#e8e8e8",
+        "primary-fixed-dim": "#a3c9ff",
+        "primary": "#005faa",
+        "on-tertiary-fixed": "#311300",
+        "surface-container": "#eeeeee",
+        "outline": "#717783",
+        "on-secondary-fixed": "#001f2a",
+        "on-error-container": "#93000a",
+        "on-background": "#1a1c1c",
+        "outline-variant": "#c0c7d4",
+        "on-secondary": "#ffffff",
+        "on-primary": "#ffffff",
+        "secondary": "#466270",
+        "on-tertiary-fixed-variant": "#743500",
+        "surface-dim": "#dadada",
+        "on-secondary-container": "#4a6774",
+        "surface-tint": "#0060ab",
+        "on-primary-fixed-variant": "#004883",
+        "tertiary-fixed": "#ffdbc8",
+        "background": "#f9f9f9",
+        "primary-container": "#0078d4",
+        "surface-container-low": "#f3f3f3",
+        "on-surface-variant": "#404752",
+        "on-tertiary-container": "#ffffff",
+        "primary-fixed": "#d3e3ff",
+        "surface-variant": "#e2e2e2",
+        "inverse-primary": "#a3c9ff",
+        "error": "#ba1a1a",
+        "on-secondary-fixed-variant": "#2e4b57",
+        "surface-bright": "#f9f9f9",
+        "secondary-fixed": "#c9e7f7"
+      },
+      fontFamily: {
+        "headline": ["Inter", "Segoe UI Variable", "sans-serif"],
+        "body": ["Inter", "Segoe UI Variable", "sans-serif"],
+        "label": ["Inter", "Segoe UI Variable", "sans-serif"]
+      },
+      borderRadius: {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      }
+    },
+  },
+  plugins: [],
+}
