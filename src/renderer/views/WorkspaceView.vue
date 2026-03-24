@@ -195,7 +195,7 @@ function handleGlobalClick() {
           <h2 class="text-sm font-bold text-on-surface-variant uppercase tracking-widest">{{ t('workspace.recentActivity') }}</h2>
           <button class="text-[11px] font-bold text-primary hover:underline" @click="emit('editItem')">{{ t('workspace.viewAllAssets') }}</button>
         </div>
-        <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm">
           <table class="w-full text-left">
             <thead>
               <tr class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest border-b border-outline-variant/10">

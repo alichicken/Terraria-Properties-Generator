@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Ethereal Workbench - Terraria Mod Item Creator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed-dim": "#ffb689",
+                        "secondary-fixed-dim": "#adcbda",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "tertiary-container": "#bc5b00",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#c6e4f4",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-primary-fixed": "#001c39",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "tertiary": "#974700",
+                        "surface-container-high": "#e8e8e8",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "primary": "#005faa",
+                        "on-tertiary-fixed": "#311300",
+                        "surface-container": "#eeeeee",
+                        "outline": "#717783",
+                        "on-secondary-fixed": "#001f2a",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#c0c7d4",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#466270",
+                        "on-tertiary-fixed-variant": "#743500",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#4a6774",
+                        "surface-tint": "#0060ab",
+                        "on-primary-fixed-variant": "#004883",
+                        "tertiary-fixed": "#ffdbc8",
+                        "background": "#f9f9f9",
+                        "primary-container": "#0078d4",
+                        "surface-container-low": "#f3f3f3",
+                        "on-surface-variant": "#404752",
+                        "on-tertiary-container": "#ffffff",
+                        "primary-fixed": "#d3e3ff",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-primary": "#a3c9ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#2e4b57",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed": "#c9e7f7"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #f3f3f3 0%, #f9f9f9 100%);
+        }
+        .mica-effect {
+            backdrop-filter: blur(40px) saturate(180%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.05)] flex justify-between items-center h-12 px-4 w-full z-50 sticky top-0 font-['Segoe_UI_Variable',_Inter] text-sm antialiased cursor-default select-none">
+<div class="flex items-center gap-6">
+<span class="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">The Ethereal Workbench</span>
+<nav class="hidden md:flex gap-4">
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-2 py-1" href="#">File</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-2 py-1" href="#">Edit</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-2 py-1" href="#">Build</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-2 py-1" href="#">Publish</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-slate-200/50 dark:bg-slate-800/50 rounded px-2 py-0.5">
+<span class="material-symbols-outlined text-slate-500 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs w-32" placeholder="Search..." type="text"/>
+</div>
+<div class="flex gap-2 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined hover:bg-slate-200/50 dark:hover:bg-slate-800/50 p-1 rounded cursor-pointer">remove</span>
+<span class="material-symbols-outlined hover:bg-slate-200/50 dark:hover:bg-slate-800/50 p-1 rounded cursor-pointer">check_box_outline_blank</span>
+<span class="material-symbols-outlined hover:bg-red-500 hover:text-white p-1 rounded cursor-pointer">close</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-slate-100/50 dark:bg-slate-950/50 backdrop-blur-2xl h-screen w-64 border-r-0 flex flex-col p-3 gap-2 font-['Segoe_UI_Variable',_Inter] text-xs font-medium z-40">
+<div class="px-2 py-4 flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">landscape</span>
+</div>
+<div>
+<div class="text-on-surface font-bold text-sm">Terraria Mod</div>
+<div class="text-on-surface-variant opacity-70">v1.4.4-stable</div>
+</div>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white rounded-md py-2 px-4 font-bold tracking-wide uppercase shadow-md flex items-center justify-center gap-2 mb-4 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span> New Asset
+            </button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md hover:translate-x-0.5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span> Workspace
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white/80 dark:bg-slate-800/80 text-blue-600 dark:text-blue-400 shadow-sm rounded-md hover:translate-x-0.5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span> Items
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md hover:translate-x-0.5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">handyman</span> Crafting
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md hover:translate-x-0.5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">image</span> Sprites
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md hover:translate-x-0.5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+                </a>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md" href="#">
+<span class="material-symbols-outlined">help</span> Documentation
+                </a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-6 flex flex-col gap-6 bg-surface">
+<!-- Header Editorial Tension -->
+<div class="flex items-baseline gap-4">
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tighter">Terra-Blade Reimagined</h1>
+<span class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant px-2 py-0.5 bg-secondary-container rounded-full">Weapon Asset</span>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Panel: Item Properties (7 cols) -->
+<section class="col-span-12 lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm border-0 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">edit_note</span> Item Properties
+                            </h2>
+<!-- Segmented Control -->
+<div class="flex bg-surface-container-highest p-1 rounded-lg">
+<button class="px-4 py-1.5 text-xs font-bold rounded-md bg-surface-container-lowest shadow-sm text-primary">Weapon</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-on-surface">Armor</button>
+<button class="px-4 py-1.5 text-xs font-medium text-on-surface-variant hover:text-on-surface">Material</button>
+</div>
+</div>
+<!-- Form Grid -->
+<div class="grid grid-cols-2 gap-x-8 gap-y-4">
+<div class="col-span-2">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Item Name</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 transition-all px-0 py-1 font-medium text-base" type="text" value="Ethereal Saber"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Damage</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium" type="number" value="125"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Damage Type</label>
+<select class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium text-sm">
+<option selected="">Melee</option>
+<option>Ranged</option>
+<option>Magic</option>
+<option>Summon</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Knockback</label>
+<input class="w-full accent-primary h-1.5 mt-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer" type="range"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Item Scale</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium" type="text" value="1.15"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Use Time</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium" type="number" value="15"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Use Animation</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium" type="number" value="15"/>
+</div>
+</div>
+<!-- Advanced Properties Expander (Expanded) -->
+<div class="mt-4 border-t border-outline-variant/10 pt-4">
+<button class="w-full flex items-center justify-between text-on-surface font-bold text-sm mb-4">
+<span>Advanced Properties</span>
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+<div class="grid grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Crit Chance</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium text-sm" type="text" value="10%"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Mana Cost</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium text-sm" type="text" value="0"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Velocity</label>
+<input class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-0 py-1 font-medium text-sm" type="text" value="8"/>
+</div>
+<div class="flex items-center gap-3 pt-2">
+<div class="w-10 h-5 bg-primary-container rounded-full relative flex items-center px-1">
+<div class="w-3.5 h-3.5 bg-white rounded-full translate-x-4"></div>
+</div>
+<span class="text-xs font-medium">Auto-reuse</span>
+</div>
+<div class="flex items-center gap-3 pt-2">
+<div class="w-10 h-5 bg-surface-container-highest rounded-full relative flex items-center px-1">
+<div class="w-3.5 h-3.5 bg-on-surface-variant/30 rounded-full"></div>
+</div>
+<span class="text-xs font-medium">No Melee</span>
+</div>
+</div>
+</div>
+<!-- Crafting Section -->
+<div class="mt-6 border-t border-outline-variant/10 pt-4">
+<button class="w-full flex items-center justify-between text-on-surface font-bold text-sm mb-4">
+<span>Crafting</span>
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+<div class="flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+<!-- Ingredients List -->
+<div class="flex flex-col gap-2">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Ingredients</label>
+<div class="flex flex-col gap-2">
+<div class="flex gap-2 items-center">
+<div class="flex-1 bg-surface-container-highest rounded px-3 py-1 flex items-center justify-between">
+<input class="bg-transparent border-none focus:ring-0 text-xs font-medium w-full" type="text" value="Terra Blade"/>
+<input class="bg-transparent border-none focus:ring-0 text-xs font-bold w-12 text-right" type="number" value="1"/>
+</div>
+<button class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+<div class="flex gap-2 items-center">
+<div class="flex-1 bg-surface-container-highest rounded px-3 py-1 flex items-center justify-between">
+<input class="bg-transparent border-none focus:ring-0 text-xs font-medium w-full" type="text" value="Broken Hero Sword"/>
+<input class="bg-transparent border-none focus:ring-0 text-xs font-bold w-12 text-right" type="number" value="2"/>
+</div>
+<button class="text-error hover:bg-error-container p-1 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+<button class="flex items-center gap-2 text-[10px] font-bold text-primary hover:bg-primary-fixed/30 px-2 py-1.5 rounded-md w-fit transition-colors">
+<span class="material-symbols-outlined text-xs">add</span> ADD INGREDIENT
+                                    </button>
+</div>
+</div>
+<!-- Crafting Station -->
+<div class="grid grid-cols-1">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Crafting Station</label>
+<div class="relative group">
+<select class="w-full bg-surface-container-highest border-b-2 border-transparent focus:border-primary focus:ring-0 px-2 py-1 font-medium text-xs appearance-none">
+<option>Iron Anvil</option>
+<option selected="">Mythril Anvil</option>
+<option>Adamantite Forge</option>
+<option>Ancient Manipulator</option>
+<option>None (By Hand)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-sm pointer-events-none opacity-50">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Sprite Preview & Code (5 cols) -->
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-6">
+<!-- Sprite Preview Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-lg mica-effect overflow-hidden p-6 flex flex-col items-center gap-4 border border-outline-variant/10">
+<div class="w-full flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-on-surface-variant tracking-widest uppercase">Sprite Preview</span>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm cursor-pointer hover:text-primary">zoom_in</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm cursor-pointer hover:text-primary">grid_4x4</span>
+</div>
+</div>
+<div class="w-full aspect-square bg-surface-container-low rounded-xl flex items-center justify-center relative group">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none"></div>
+<!-- Selected Glow -->
+<div class="absolute w-40 h-40 bg-primary-container/20 blur-3xl rounded-full"></div>
+<img alt="Sprite of the ethereal saber weapon" class="w-48 h-48 pixelated object-contain relative z-10" data-alt="Pixel art sprite of a glowing blue sword" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKw4PUT4DRhOeBpJUWPHSHURmRjqJEiJ78m1RVI0lmUMov0oD08itXoEedqMVSBB3beJ_G5Wf3rTgQfm39YuoILekUk8dSuVA6PDfFeMdf162bFs2U0ikLp0hCKCLY3W6bknSU53c-AsYMB4LztkC3BDmzidVRKo56csl4Zx5fMJd3Bla0h4oal0wVf4Rs5pdPVMy4gr3Knt087DkiuA5c1i4Udj4yaQSBcplBNFeyEAIbGeXcUtdQNjVaEStL0m_lOfM07wBrVhPD"/>
+</div>
+<div class="w-full flex justify-between px-2">
+<div class="flex flex-col">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Dimensions</span>
+<span class="text-xs font-medium">32x32 px</span>
+</div>
+<button class="bg-surface-container-highest hover:bg-surface-container-high transition-colors px-4 py-1 rounded-md text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">upload</span> Replace
+                            </button>
+</div>
+</div>
+<!-- Code View Card -->
+<div class="flex-1 bg-surface-container-high rounded-xl p-4 shadow-sm border-0 font-mono text-[11px] leading-relaxed relative min-h-[250px] overflow-hidden">
+<div class="absolute top-4 right-4 text-[10px] font-bold text-primary px-2 py-0.5 bg-primary-fixed rounded border border-primary-fixed-dim">C# SOURCE</div>
+<div class="flex flex-col gap-1 text-on-secondary-container">
+<p><span class="text-purple-600">public override void</span> <span class="text-blue-700">SetDefaults</span>() {</p>
+<p class="pl-4">Item.damage = <span class="text-orange-600">125</span>;</p>
+<p class="pl-4">Item.DamageType = <span class="text-blue-700">DamageClass</span>.Melee;</p>
+<p class="pl-4">Item.width = <span class="text-orange-600">40</span>;</p>
+<p class="pl-4">Item.height = <span class="text-orange-600">40</span>;</p>
+<p class="pl-4">Item.useTime = <span class="text-orange-600">15</span>;</p>
+<p class="pl-4">Item.useAnimation = <span class="text-orange-600">15</span>;</p>
+<p class="pl-4">Item.useStyle = <span class="text-orange-600">1</span>;</p>
+<p class="pl-4">Item.knockBack = <span class="text-orange-600">6.5f</span>;</p>
+<p class="pl-4">Item.scale = <span class="text-orange-600">1.15f</span>;</p>
+<p class="pl-4">Item.autoReuse = <span class="text-blue-700">true</span>;</p>
+<p>}</p>
+<p class="mt-2"><span class="text-purple-600">public override void</span> <span class="text-blue-700">AddRecipes</span>() {</p>
+<p class="pl-4"><span class="text-blue-700">CreateRecipe</span>()</p>
+<p class="pl-8">.AddIngredient(<span class="text-blue-700">ItemID</span>.TerraBlade, <span class="text-orange-600">1</span>)</p>
+<p class="pl-8">.AddIngredient(<span class="text-blue-700">ItemID</span>.BrokenHeroSword, <span class="text-orange-600">2</span>)</p>
+<p class="pl-8">.AddTile(<span class="text-blue-700">TileID</span>.MythrilAnvil)</p>
+<p class="pl-8">.Register();</p>
+<p>}</p>
+</div>
+<button class="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-surface-container-lowest shadow-md flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Status Bar & Actions Footer -->
+<footer class="h-10 bg-surface-container-low px-4 flex items-center justify-between border-t border-outline-variant/10 text-xs font-medium z-50">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+<span>Ready to Compile</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<span>Ln 1, Col 42</span>
+<span>UTF-8</span>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1 text-on-primary-container font-bold hover:bg-surface-container-high rounded transition-colors">Save Template</button>
+<button class="px-4 py-1 bg-gradient-to-r from-primary to-primary-container text-white font-bold rounded shadow-sm hover:brightness-110 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">rocket_launch</span>
+                Export to Mod
+            </button>
+</div>
+</footer>
+</body></html>

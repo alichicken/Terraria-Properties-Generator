@@ -15,6 +15,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Shell operations
   openFolder: (folderPath: string) => ipcRenderer.invoke('open-folder', folderPath),
 
+  // Export operations
+  selectExportFolder: () => ipcRenderer.invoke('select-export-folder'),
+  exportCode: (folderPath: string, fileName: string, code: string) =>
+    ipcRenderer.invoke('export-code', folderPath, fileName, code),
+
   // Menu event listeners
   onMenuNewProject: (callback: () => void) => {
     ipcRenderer.on('menu-new-project', callback);

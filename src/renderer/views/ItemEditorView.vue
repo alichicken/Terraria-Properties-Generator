@@ -289,6 +289,28 @@ function handleCopyCode() {
   navigator.clipboard.writeText(generatedCode.value)
 }
 
+async function handleExportCode() {
+  if (!window.electronAPI) return
+
+  // Select folder
+  const folderPath = await window.electronAPI.selectExportFolder()
+  if (!folderPath) return
+
+  // Generate filename based on item name
+  const itemName = store.currentItem?.name || 'Item'
+  const fileName = `${itemName.replace(/\s+/g, '_')}.cs`
+
+  // Get plain code without HTML
+  const plainCode = generatedCode.value.replace(/<[^>]+>/g, '')
+
+  const result = await window.electronAPI.exportCode(folderPath, fileName, plainCode)
+  if (result.success) {
+    alert(`代码已导出到: ${result.path}`)
+  } else {
+    alert(`导出失败: ${result.error}`)
+  }
+}
+
 function addIngredient() {
   ingredients.value.push({ name: '', count: 1 })
 }
@@ -964,10 +986,19 @@ function getTypeLabel() {
               <span class="material-symbols-outlined text-sm">code</span>
               Mod Source (C#)
             </h3>
-            <button
-              class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tight"
-              @click="handleCopyCode"
-            >Copy to Clipboard</button>
+            <div class="flex items-center gap-4">
+              <button
+                class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tight"
+                @click="handleExportCode"
+              >
+                <span class="material-symbols-outlined text-sm align-middle mr-1">download</span>
+                Export to File
+              </button>
+              <button
+                class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tight"
+                @click="handleCopyCode"
+              >Copy to Clipboard</button>
+            </div>
           </div>
           <div class="bg-slate-900 rounded-xl p-5 h-full overflow-hidden relative min-h-[300px] flex flex-col">
             <div class="flex-1 overflow-auto">

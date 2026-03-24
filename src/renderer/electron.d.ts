@@ -9,6 +9,8 @@ declare global {
       openProject: () => Promise<{ path: string; data: unknown } | null>
       selectImage: () => Promise<string | null>
       openFolder: (folderPath: string) => Promise<void>
+      selectExportFolder: () => Promise<string | null>
+      exportCode: (folderPath: string, fileName: string, code: string) => Promise<{ success: boolean; path?: string; error?: string }>
       onMenuNewProject: (callback: () => void) => () => void
       onMenuSave: (callback: () => void) => () => void
       onMenuGenerateCode: (callback: () => void) => () => void

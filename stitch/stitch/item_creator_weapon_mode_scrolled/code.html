@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ethereal Workbench - Item Creator (Scrolled)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#ffdbc8",
+                        "surface-container-highest": "#e2e2e2",
+                        "error": "#ba1a1a",
+                        "tertiary": "#974700",
+                        "on-surface-variant": "#404752",
+                        "on-secondary-fixed": "#001f2a",
+                        "background": "#f9f9f9",
+                        "surface-variant": "#e2e2e2",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#311300",
+                        "on-secondary-fixed-variant": "#2e4b57",
+                        "on-secondary-container": "#4a6774",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#c9e7f7",
+                        "primary-fixed": "#d3e3ff",
+                        "surface-bright": "#f9f9f9",
+                        "on-background": "#1a1c1c",
+                        "tertiary-container": "#bc5b00",
+                        "secondary-container": "#c6e4f4",
+                        "on-primary-fixed-variant": "#004883",
+                        "surface-dim": "#dadada",
+                        "on-surface": "#1a1c1c",
+                        "primary": "#005faa",
+                        "outline-variant": "#c0c7d4",
+                        "inverse-primary": "#a3c9ff",
+                        "surface-container-low": "#f3f3f3",
+                        "outline": "#717783",
+                        "secondary-fixed-dim": "#adcbda",
+                        "surface-tint": "#0060ab",
+                        "tertiary-fixed-dim": "#ffb689",
+                        "surface": "#f9f9f9",
+                        "on-primary-container": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "secondary": "#466270",
+                        "on-primary-fixed": "#001c39",
+                        "on-tertiary-fixed-variant": "#743500",
+                        "surface-container": "#eeeeee",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e8e8e8",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#ffffff",
+                        "primary-container": "#0078d4",
+                        "inverse-surface": "#2f3131"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .mica-effect {
+            backdrop-filter: blur(20px);
+            background-color: rgba(249, 249, 249, 0.8);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e2e2;
+            border-radius: 10px;
+        }
+        .code-syntax-keyword { color: #005faa; }
+        .code-syntax-method { color: #bc5b00; }
+        .code-syntax-string { color: #466270; }
+        .code-syntax-comment { color: #717783; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none flex items-center justify-between px-6 h-12 w-full font-['Segoe_UI_Variable',_Inter] text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-lg font-semibold text-slate-900 dark:text-slate-100 tracking-tight">Ethereal Workbench</span>
+<div class="flex items-center gap-4">
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors px-2 py-1" href="#">File</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors px-2 py-1" href="#">Edit</a>
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1" href="#">Project</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors px-2 py-1" href="#">Build</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors px-2 py-1" href="#">Help</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-slate-100/50 dark:bg-slate-800/50 px-3 py-1 rounded-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-slate-500">search</span>
+<input class="bg-transparent border-none outline-none text-xs w-48" placeholder="Search Project..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 rounded-full transition-all">settings</button>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-12 bottom-0 w-64 z-40 bg-slate-50/50 dark:bg-slate-950/50 backdrop-blur-2xl flex flex-col p-4 gap-2 h-full border-r border-slate-200/10 dark:border-slate-800/10 font-['Segoe_UI_Variable',_Inter] text-xs font-medium">
+<div class="flex items-center gap-3 mb-6 px-2">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="category">category</span>
+</div>
+<div>
+<div class="text-on-surface font-semibold">TerrariaModX</div>
+<div class="text-on-surface-variant opacity-60">v1.4.4-Alpha</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary py-2 px-4 rounded-xl font-bold uppercase tracking-wider mb-4 flex items-center justify-center gap-2 shadow-sm hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+            New Asset
+        </button>
+<nav class="flex flex-col gap-1">
+<a class="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-md shadow-sm flex items-center gap-3 px-3 py-2.5" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+                Items
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2.5" href="#">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span>
+                Projectiles
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2.5" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                Tiles
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2.5" href="#">
+<span class="material-symbols-outlined" data-icon="Electric_Bolt">electric_bolt</span>
+                Buffs
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2.5" href="#">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+                NPCs
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2.5" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                Recipes
+            </a>
+</nav>
+<div class="mt-auto flex flex-col gap-1">
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+                Documentation
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-md flex items-center gap-3 px-3 py-2" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
+                Terminal
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-12 p-8 h-[calc(100vh-3rem)] overflow-y-auto">
+<div class="grid grid-cols-12 gap-8 max-w-7xl mx-auto">
+<!-- Left Column: Item Properties (Scrolled View) -->
+<div class="col-span-7 flex flex-col gap-8">
+<!-- Bottom of Weapon Properties Section -->
+<section class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="swords">swords</span>
+<h2 class="text-headline-sm font-bold text-on-surface">Advanced Combat Properties</h2>
+</div>
+<div class="space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-medium text-on-surface-variant uppercase tracking-tight">Use Style</label>
+<select class="bg-surface-container-highest border-none rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20">
+<option>Swing (1)</option>
+<option>Stab (3)</option>
+<option>HoldUp (4)</option>
+<option selected="">Swing (1)</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-medium text-on-surface-variant uppercase tracking-tight">Shoot Projectile ID</label>
+<div class="relative">
+<input class="w-full bg-surface-container-highest border-none rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20" type="text" value="TerraBeam"/>
+<span class="material-symbols-outlined absolute right-2 top-2 text-sm opacity-40">search</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-medium text-on-surface-variant uppercase tracking-tight">Ammo Type</label>
+<select class="bg-surface-container-highest border-none rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20">
+<option selected="">None (0)</option>
+<option>Arrow (1)</option>
+<option>Bullet (2)</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-label-sm font-medium text-on-surface-variant uppercase tracking-tight">Use Turn</label>
+<div class="flex items-center gap-3 py-2">
+<div class="w-10 h-5 bg-primary rounded-full relative transition-all">
+<div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+<span class="text-xs font-semibold">Enabled</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Full Crafting Section -->
+<section class="bg-surface-container-low p-6 rounded-xl">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="construction">construction</span>
+<h2 class="text-headline-sm font-bold text-on-surface">Crafting Recipe</h2>
+</div>
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">+ Add Ingredient</button>
+</div>
+<div class="space-y-4">
+<!-- Ingredient 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container rounded flex items-center justify-center">
+<div class="w-6 h-6 bg-slate-300 rounded-sm" style="background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #eee 75%), linear-gradient(-45deg, transparent 75%, #eee 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;"></div>
+</div>
+<div>
+<div class="text-sm font-bold">Broken Hero Sword</div>
+<div class="text-[10px] text-on-surface-variant opacity-60">ID: BrokenHeroSword</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<input class="w-16 bg-surface-container-high border-none rounded px-2 py-1 text-center text-xs font-bold" type="number" value="1"/>
+<button class="material-symbols-outlined text-on-surface-variant/40 hover:text-error transition-colors">close</button>
+</div>
+</div>
+<!-- Ingredient 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container rounded flex items-center justify-center">
+<div class="w-6 h-6 bg-blue-100 rounded-sm" style="background-image: linear-gradient(45deg, #d3e3ff 25%, transparent 25%), linear-gradient(-45deg, #d3e3ff 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #d3e3ff 75%), linear-gradient(-45deg, transparent 75%, #d3e3ff 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;"></div>
+</div>
+<div>
+<div class="text-sm font-bold">True Excalibur</div>
+<div class="text-[10px] text-on-surface-variant opacity-60">ID: TrueExcalibur</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<input class="w-16 bg-surface-container-high border-none rounded px-2 py-1 text-center text-xs font-bold" type="number" value="1"/>
+<button class="material-symbols-outlined text-on-surface-variant/40 hover:text-error transition-colors">close</button>
+</div>
+</div>
+<!-- Ingredient 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container rounded flex items-center justify-center">
+<div class="w-6 h-6 bg-purple-100 rounded-sm" style="background-image: linear-gradient(45deg, #bc5b00 25%, transparent 25%), linear-gradient(-45deg, #bc5b00 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #bc5b00 75%), linear-gradient(-45deg, transparent 75%, #bc5b00 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;"></div>
+</div>
+<div>
+<div class="text-sm font-bold">True Night's Edge</div>
+<div class="text-[10px] text-on-surface-variant opacity-60">ID: TrueNightsEdge</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<input class="w-16 bg-surface-container-high border-none rounded px-2 py-1 text-center text-xs font-bold" type="number" value="1"/>
+<button class="material-symbols-outlined text-on-surface-variant/40 hover:text-error transition-colors">close</button>
+</div>
+</div>
+<!-- Crafting Station -->
+<div class="mt-8">
+<label class="text-label-sm font-medium text-on-surface-variant uppercase tracking-tight block mb-2">Primary Station</label>
+<div class="bg-surface-container-highest border-b-2 border-primary rounded-t-md p-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">iron</span>
+<span class="text-sm font-semibold">Mythril Anvil</span>
+</div>
+<span class="material-symbols-outlined text-sm opacity-40">arrow_drop_down</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Code Preview (Scrolled to bottom) -->
+<div class="col-span-5">
+<div class="sticky top-8 flex flex-col gap-4">
+<div class="bg-inverse-surface rounded-xl overflow-hidden shadow-2xl">
+<div class="bg-black/20 px-4 py-2 flex items-center justify-between border-b border-white/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-400 text-sm">code</span>
+<span class="text-[10px] text-white/60 font-mono tracking-wider">TerraBlade.cs</span>
+</div>
+<div class="flex gap-1">
+<div class="w-2.5 h-2.5 rounded-full bg-white/10"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-white/10"></div>
+</div>
+</div>
+<div class="p-6 font-mono text-xs leading-relaxed text-white/80 overflow-y-auto max-h-[700px]">
+<!-- Bottom part of the class -->
+<div class="opacity-40 mb-4 select-none">
+                                ... // Other Weapon Properties above<br/>
+                                Item.autoReuse = <span class="text-purple-400">true</span>;<br/>
+                                Item.shoot = ModContent.ProjectileType&lt;TerraBeam&gt;();<br/>
+                                Item.shootSpeed = <span class="text-orange-300">12f</span>;<br/>
+                                }<br/><br/>
+</div>
+<div class="border-l-2 border-primary/40 pl-4 py-2 bg-primary/5">
+<span class="code-syntax-keyword">public override void</span> <span class="code-syntax-method">AddRecipes</span>()<br/>
+                                {<br/>
+<span class="inline-block w-4"></span>CreateRecipe()<br/>
+<span class="inline-block w-8"></span>.<span class="code-syntax-method">AddIngredient</span>(ItemID.BrokenHeroSword, <span class="text-orange-300">1</span>)<br/>
+<span class="inline-block w-8"></span>.<span class="code-syntax-method">AddIngredient</span>(ItemID.TrueExcalibur, <span class="text-orange-300">1</span>)<br/>
+<span class="inline-block w-8"></span>.<span class="code-syntax-method">AddIngredient</span>(ItemID.TrueNightsEdge, <span class="text-orange-300">1</span>)<br/>
+<span class="inline-block w-8"></span>.<span class="code-syntax-method">AddTile</span>(TileID.MythrilAnvil)<br/>
+<span class="inline-block w-8"></span>.<span class="code-syntax-method">Register</span>();<br/>
+                                }
+                            </div>
+<div class="mt-4">
+                                }<br/>
+<span class="text-on-surface-variant">}</span>
+</div>
+</div>
+</div>
+<!-- Action Bar Overlay -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-lg">
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-blue-500 opacity-20"></div>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center">
+<span class="text-[10px] font-bold">JD</span>
+</div>
+</div>
+<span class="text-[10px] text-on-surface-variant font-medium">Auto-syncing to project...</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-highest px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-surface-dim transition-colors">DISCARD</button>
+<button class="bg-primary text-on-primary px-6 py-1.5 rounded-lg text-xs font-bold shadow-md hover:shadow-lg transition-all active:scale-95">COMPILE ITEM</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Visual Polish: Floating Tooltip/Status (Fluent UI Style) -->
+<div class="fixed bottom-6 right-6 mica-effect px-4 py-3 rounded-xl shadow-xl border border-white/20 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+<div class="text-xs font-medium">Recipe logic validated. Projectile "TerraBeam" detected in Mod Source.</div>
+</div>
+</body></html>

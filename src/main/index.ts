@@ -193,6 +193,30 @@ ipcMain.handle('open-folder', async (_event, folderPath: string) => {
   shell.openPath(folderPath);
 });
 
+ipcMain.handle('select-export-folder', async () => {
+  const result = await dialog.showOpenDialog(mainWindow!, {
+    properties: ['openDirectory'],
+    title: '选择导出文件夹'
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    return result.filePaths[0];
+  }
+  return null;
+});
+
+ipcMain.handle('export-code', async (_event, folderPath: string, fileName: string, code: string) => {
+  const fs = require('fs');
+  const filePath = path.join(folderPath, fileName);
+  try {
+    fs.writeFileSync(filePath, code, 'utf-8');
+    return { success: true, path: filePath };
+  } catch (e) {
+    console.error('Failed to export code:', e);
+    return { success: false, error: String(e) };
+  }
+});
+
 app.whenReady().then(() => {
   createWindow();
 
