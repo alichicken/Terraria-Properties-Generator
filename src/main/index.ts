@@ -217,6 +217,46 @@ ipcMain.handle('export-code', async (_event, folderPath: string, fileName: strin
   }
 });
 
+// Open mod folder and list .cs files
+ipcMain.handle('open-mod-folder', async () => {
+  const result = await dialog.showOpenDialog(mainWindow!, {
+    properties: ['openDirectory'],
+    title: '选择 Mod 文件夹'
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    const fs = require('fs');
+    const folderPath = result.filePaths[0];
+    const items: { name: string; path: string }[] = [];
+
+    try {
+      const files = fs.readdirSync(folderPath);
+      for (const file of files) {
+        if (file.endsWith('.cs')) {
+          items.push({ name: file, path: path.join(folderPath, file) });
+        }
+      }
+      return { success: true, folderPath, items };
+    } catch (e) {
+      console.error('Failed to read folder:', e);
+      return { success: false, error: String(e) };
+    }
+  }
+  return null;
+});
+
+// Read .cs file and parse item properties
+ipcMain.handle('read-cs-file', async (_event, filePath: string) => {
+  const fs = require('fs');
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    return { success: true, content };
+  } catch (e) {
+    console.error('Failed to read file:', e);
+    return { success: false, error: String(e) };
+  }
+});
+
 app.whenReady().then(() => {
   createWindow();
 

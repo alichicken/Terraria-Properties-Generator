@@ -118,10 +118,23 @@ export interface ModProject {
   updatedAt: string
 }
 
+// Workspace files from opened mod folder
+export interface WorkspaceFile {
+  name: string
+  path: string
+}
+
 export const useProjectStore = defineStore('project', () => {
   const currentProject = ref<ModProject | null>(null)
   const currentItem = ref<ModItem | null>(null)
   const items = ref<ModItem[]>([])
+
+  // Workspace folder
+  const workspaceFolder = ref<string | null>(null)
+  const workspaceFiles = ref<WorkspaceFile[]>([])
+
+  // View mode: 'recent' or 'workspace'
+  const viewMode = ref<'recent' | 'workspace'>('recent')
   const recentItems = computed(() => {
     return [...items.value].sort((a, b) =>
       new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
@@ -217,18 +230,33 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  function setWorkspace(folderPath: string, files: WorkspaceFile[]) {
+    workspaceFolder.value = folderPath
+    workspaceFiles.value = files
+  }
+
+  function clearWorkspace() {
+    workspaceFolder.value = null
+    workspaceFiles.value = []
+  }
+
   return {
     currentProject,
     currentItem,
     items,
     recentItems,
     stats,
+    workspaceFolder,
+    workspaceFiles,
+    viewMode,
     createNewProject,
     addItem,
     updateItem,
     deleteItem,
     selectItem,
     loadProject,
-    getProjectData
+    getProjectData,
+    setWorkspace,
+    clearWorkspace
   }
 })

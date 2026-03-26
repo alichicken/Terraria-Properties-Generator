@@ -2,6 +2,7 @@
   "name": "terraria-properties-generator",
   "version": "1.4.4",
   "description": "Terraria 物品属性生成器 - The Ethereal Workbench",
+  "author": "Ethereal Workbench",
   "main": "dist/main/main/index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",

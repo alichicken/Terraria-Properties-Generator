@@ -20,6 +20,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   exportCode: (folderPath: string, fileName: string, code: string) =>
     ipcRenderer.invoke('export-code', folderPath, fileName, code),
 
+  // Mod folder operations
+  openModFolder: () => ipcRenderer.invoke('open-mod-folder'),
+  readCsFile: (filePath: string) => ipcRenderer.invoke('read-cs-file', filePath),
+
   // Menu event listeners
   onMenuNewProject: (callback: () => void) => {
     ipcRenderer.on('menu-new-project', callback);
