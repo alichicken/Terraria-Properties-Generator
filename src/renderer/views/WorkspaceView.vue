@@ -86,6 +86,68 @@ async function handleOpenModFolder() {
   if (result && result.success && result.items) {
     store.setWorkspace(result.folderPath!, result.items)
     store.viewMode = 'workspace'
+
+    // Import all .cs files as items
+    for (const file of result.items) {
+      const fileResult = await window.electronAPI.readCsFile(file.path)
+      if (fileResult.success && fileResult.content) {
+        const parsed = parseCsFile(fileResult.content)
+        if (parsed) {
+          store.addItem(parsed)
+        }
+      }
+    }
+  }
+}
+
+// Open output folder
+async function handleOpenOutputFolder() {
+  if (!window.electronAPI) return
+
+  // First try to open the mod folder if workspace is set
+  if (store.workspaceFolder) {
+    await window.electronAPI.openFolder(store.workspaceFolder)
+    return
+  }
+
+  // Try to get mod source folder from settings
+  const modSourceFolder = await window.electronAPI.getStoreValue('modSourceFolder')
+  if (modSourceFolder) {
+    await window.electronAPI.openFolder(modSourceFolder as string)
+    return
+  }
+
+  // Otherwise open a folder picker
+  const result = await window.electronAPI.selectExportFolder()
+  if (result) {
+    await window.electronAPI.openFolder(result)
+  }
+}
+
+// Open single item file
+async function handleOpenSingleItem() {
+  if (!window.electronAPI) return
+
+  const result = await window.electronAPI.openModFolder()
+  if (result && result.success && result.items && result.items.length > 0) {
+    // If there's only one file, open it directly
+    if (result.items.length === 1) {
+      const fileResult = await window.electronAPI.readCsFile(result.items[0].path)
+      if (fileResult.success && fileResult.content) {
+        const parsed = parseCsFile(fileResult.content)
+        if (parsed) {
+          store.addItem(parsed)
+          emit('editItem')
+          return
+        }
+      }
+      alert('文件不符合 Terraria 物品标准，无法解析')
+      return
+    }
+
+    // Otherwise switch to workspace view for selection
+    store.setWorkspace(result.folderPath!, result.items)
+    store.viewMode = 'workspace'
   }
 }
 
@@ -311,21 +373,25 @@ function getRarityLabel(rare: number): string {
       <section class="col-span-12 lg:col-span-4 space-y-4">
         <h2 class="text-sm font-bold text-on-surface-variant uppercase tracking-widest pl-1">{{ t('workspace.actions') }}</h2>
         <div class="grid grid-cols-2 gap-3">
+          <!-- 选择 Mod -->
           <button class="flex flex-col items-start gap-3 p-4 bg-surface-container-lowest rounded-xl hover:bg-primary-container hover:text-white transition-all group active:scale-95" @click="handleOpenModFolder">
             <span class="material-symbols-outlined text-primary group-hover:text-white">folder_open</span>
-            <span class="text-[11px] font-bold uppercase tracking-wider">打开工作区</span>
+            <span class="text-[11px] font-bold uppercase tracking-wider">选择 Mod</span>
           </button>
-          <button class="flex flex-col items-start gap-3 p-4 bg-surface-container-lowest rounded-xl hover:bg-primary-container hover:text-white transition-all group active:scale-95">
-            <span class="material-symbols-outlined text-primary group-hover:text-white">terminal</span>
-            <span class="text-[11px] font-bold uppercase tracking-wider">{{ t('actions.openOutput') }}</span>
+          <!-- 打开输出文件夹 -->
+          <button class="flex flex-col items-start gap-3 p-4 bg-surface-container-lowest rounded-xl hover:bg-primary-container hover:text-white transition-all group active:scale-95" @click="handleOpenOutputFolder">
+            <span class="material-symbols-outlined text-primary group-hover:text-white">folder</span>
+            <span class="text-[11px] font-bold uppercase tracking-wider">输出文件夹</span>
           </button>
+          <!-- 管理素材 -->
           <button class="flex flex-col items-start gap-3 p-4 bg-surface-container-lowest rounded-xl hover:bg-primary-container hover:text-white transition-all group active:scale-95">
             <span class="material-symbols-outlined text-primary group-hover:text-white">brush</span>
             <span class="text-[11px] font-bold uppercase tracking-wider">{{ t('actions.manageSprites') }}</span>
           </button>
-          <button class="flex flex-col items-start gap-3 p-4 bg-surface-container-lowest rounded-xl hover:bg-primary-container hover:text-white transition-all group active:scale-95">
-            <span class="material-symbols-outlined text-primary group-hover:text-white">unarchive</span>
-            <span class="text-[11px] font-bold uppercase tracking-wider">{{ t('actions.exportTmod') }}</span>
+          <!-- 打开物品 -->
+          <button class="flex flex-col items-start gap-3 p-4 bg-surface-container-lowest rounded-xl hover:bg-primary-container hover:text-white transition-all group active:scale-95" @click="handleOpenSingleItem">
+            <span class="material-symbols-outlined text-primary group-hover:text-white">description</span>
+            <span class="text-[11px] font-bold uppercase tracking-wider">打开物品</span>
           </button>
         </div>
       </section>
@@ -470,7 +536,7 @@ function getRarityLabel(rare: number): string {
             <tbody class="divide-y divide-outline-variant/5">
               <tr v-if="store.workspaceFiles.length === 0">
                 <td colspan="2" class="px-6 py-8 text-center text-on-surface-variant text-sm">
-                  暂无工作区文件，请点击"打开工作区"选择一个 Mod 文件夹
+                  暂无工作区文件，请点击"选择 Mod"选择一个 Mod 文件夹
                 </td>
               </tr>
               <tr
